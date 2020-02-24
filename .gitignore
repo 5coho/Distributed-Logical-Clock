@@ -1,0 +1,6 @@
+#folders to ignore
+env/
+__pycache__/
+
+#files to ignore
+run.sh
