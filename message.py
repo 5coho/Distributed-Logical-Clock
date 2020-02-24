@@ -28,7 +28,6 @@ class message:
         self.senderName = ""
         self.msg = ""
         self.clockCount = 0
-        self.mSize = 0
 
 
     #self explanatory setters bellow
