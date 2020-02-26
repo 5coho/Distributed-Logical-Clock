@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>543</width>
-    <height>619</height>
+    <height>614</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -253,7 +253,7 @@
      <property name="minimumSize">
       <size>
        <width>521</width>
-       <height>341</height>
+       <height>199</height>
       </size>
      </property>
      <property name="maximumSize">
@@ -270,8 +270,8 @@
        <widget class="QTextEdit" name="textEdit_received">
         <property name="minimumSize">
          <size>
-          <width>501</width>
-          <height>311</height>
+          <width>497</width>
+          <height>159</height>
          </size>
         </property>
         <property name="maximumSize">
@@ -380,6 +380,28 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_to">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>104</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_toPort">
             <property name="sizePolicy">
@@ -408,28 +430,6 @@
             </property>
             <property name="text">
              <string>Port:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_to">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>50</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>104</width>
-              <height>20</height>
-             </size>
             </property>
            </widget>
           </item>

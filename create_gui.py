@@ -26,9 +26,11 @@ import socket
 from node_gui import node_gui
 from multiprocessing import Process
 import threading
+from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import QProcess
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
@@ -44,6 +46,7 @@ class create_gui(QWidget):
         loadUi("createGUI.ui", self)
         self.radioBttn_hostName.setText(f"{socket.gethostname()} ({socket.gethostbyname(socket.gethostname())})")
         self._load_connects()
+        self.move(20,20)
 
 
     #loads the connection for the buttion
@@ -62,10 +65,21 @@ class create_gui(QWidget):
     #function for the node process to be created
     def create_node(self):
         print("Creating new node...", flush=True)
+        proc = QProcess()
+        proc.start(self.testProc())
+        proc.kill()
         #NodeApp = QApplication(sys.argv)
         #gui = node_gui()
         #gui.show()
         #sys.exit(NodeApp.exec_())
+
+    def testProc(self):
+        print("starting process...", flush=True)
+        print("sleeping for 5 seconds...", flush=True)
+        time.sleep(5)
+        print("Killing process", flush=True)
+        #nodeThread = Thread()
+        #nodeThread.start()
 
 
     #this function updates the lineEdit fields
@@ -101,6 +115,32 @@ class create_gui(QWidget):
         #thread.start()
         #thread.join()
 
+        #proc = QProcess()
+        #proc.start(self.testProc())
+        #proc.kill()
+
+        #nodeThread = Thread()
+        #nodeThread.start()
+
         #printing to textEdit_log
         self.textEdit_log.insertHtml(f"Node <b>{self.lineEdit_name.text()}@{ipAddress}:{self.lineEdit_port.text()}</b> created. Timestamp starting at <b>{self.lineEdit_timeStart.text()}</b><br />")
         self._updateNamePort()
+
+
+
+#Test thread
+#fuckkkkkkkkkkkkk
+class Thread(QThread):
+
+    def __init__(self):
+        super(Thread, self).__init__()
+
+    def run(self):
+        #sprint("printing stuff...", flush=True)
+        #nodeApp = QApplication(sys.argv)
+        #nodeGui = node_gui()
+        #nodeGui.show()
+        #sys.exit(nodeApp.exec_())
+        for i in range(0,10):
+            print(f"{i}. stuff is happening", flush=True)
+            time.sleep(1)

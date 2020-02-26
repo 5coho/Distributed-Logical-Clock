@@ -20,6 +20,7 @@ __python_version__  = "3.8.1"
 import sys
 import time
 import socket
+from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
@@ -48,14 +49,14 @@ class node_gui(QWidget):
         self.clockCount = timestampStart
 
         #creating socket
-        sock = socket.socket()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         #setting up labels for info
-        self.label_nodeName.setText(nodeName)
+        self.label_nodeName.setText(self.nodeName)
         self.label_hostname.setText(socket.gethostname())
-        self.label_ipAddress.setText(ipAddress)
-        self.label_port.setText(str(port))
-        self.lcd_timestamp.display(timestampStart)
+        self.label_ipAddress.setText(self.ipAddress)
+        self.label_port.setText(str(self.port))
+        self.lcd_timestamp.display(self.clockCount)
 
         self._load_connects()
 
@@ -76,14 +77,38 @@ class node_gui(QWidget):
     #creates functionality to the send message buttion
     @pyqtSlot()
     def bttn_sendMessage_clicked(self):
-        print("Stuff is happening!!!!!", flush=True)
+        print(f"Message from {self.nodeName} to {self.lineEdit_to.text()}:{self.lineEdit_toPort.text()} SENDING...", end='', flush=True)
 
         self._updateClockCount()
+
+        #logic for message sending goes here
+        #some node bs
+        #make message here or make message in node??????
+
+        print("SENT", flush=True)
+
         self.textEdit_received.insertHtml(f"<b>{self.clockCount} {self.nodeName}></b> {self.lineEdit_send.text()}<br>")
         self.lineEdit_send.clear()
+
 
     #function to update clockCount and lcd
     def _updateClockCount(self):
         self.clockCount = self.clockCount + 1
         self.lcd_timestamp.display(self.clockCount)
-        print(str(self.clockCount), flush=True)
+
+
+#thread that listens for messges... probably
+class Thread(QThread):
+
+    def __init__(self):
+        super(Thread, self).__init__()
+
+    def run(self):
+        #sprint("printing stuff...", flush=True)
+        #nodeApp = QApplication(sys.argv)
+        #nodeGui = node_gui()
+        #nodeGui.show()
+        #sys.exit(nodeApp.exec_())
+        for i in range(0,10):
+            print(f"{i}. stuff is happening", flush=True)
+            time.sleep(1)

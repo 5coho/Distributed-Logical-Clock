@@ -19,6 +19,7 @@ __python_version__  = "3.8.1"
 #imports go here
 import sys
 from create_gui import create_gui
+from node_gui import node_gui
 from PyQt5.QtWidgets import QApplication
 
 
@@ -27,7 +28,11 @@ from PyQt5.QtWidgets import QApplication
 def main():
     app = QApplication(sys.argv)
     gui = create_gui()
+    gui2 = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
+    gui3 = node_gui("Graeme Morgan", "127.0.0.1", 1235, 0, 583, 360)
     gui.show()
+    gui2.show()
+    gui3.show()
     sys.exit(app.exec_())
 
 
