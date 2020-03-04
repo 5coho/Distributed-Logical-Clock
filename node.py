@@ -25,17 +25,37 @@ class node:
 
 
     #constructor
-    def __init__(self, socket):
-        self.sock = socket
+    def __init__(self, ipAddress, port):
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.ipAddress = ipAddress
+        self.port = port
+        self.listenQueue = 5
+
+        #binding the address (ipAddress, port) for listening
+        self.sock.bind((self.ipAddress, self.port))
+        self.sock.listen(self.listenQueue)
 
 
     #self explanatory setters bellow
-    def sendMessage(self, message):
-        pass
+    def sendMessage(self, message, destination, port):
+
+        #pickling the Message
+        pickledMsg = pickle.dumps(message)
+
+        #sending message via temp socket
+        tempSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        tempSock.connect((destination, port))
+        tempSock.send(pickledMsg)
+        tempSock.close()
 
 
     def recvMessage(self):
-        pass
+        self.sock.listen(self.listenQueue)
+        clientsocket, address = self.sock.accept()
+        msg = clientsocket.recv(1024)
+        unpickledMsg = pickle.loads(msg)
+        clientsocket.close()
+        return unpickledMsg
 
 
     #python special methods
@@ -44,4 +64,4 @@ class node:
 
 
     def __str__(self):
-        return f"Node Object\nSocket: {self.sock}\nClock: {self.clockCount}\nMessage: {self.msg}\nSize: {self.mSize}"
+        return f"Node Object\nSocket: {self.sock}\n"

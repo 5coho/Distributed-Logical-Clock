@@ -20,6 +20,7 @@ __python_version__  = "3.8.1"
 import sys
 import time
 import socket
+import threading
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
@@ -27,6 +28,8 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
+from message import message
+from node import node
 
 
 #the node_gui class
@@ -35,8 +38,6 @@ class node_gui(QWidget):
 
     #constructor
     def __init__(self, nodeName, ipAddress, port, timestampStart, xStart, yStart):
-
-        #set up
         super(node_gui, self).__init__()
         loadUi("nodeGUI.ui", self)
         self.move(xStart, yStart)
@@ -48,8 +49,12 @@ class node_gui(QWidget):
         self.port = port
         self.clockCount = timestampStart
 
-        #creating socket
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #creating node Object
+        self.node = node(self.ipAddress, self.port)
+
+        #creating message object
+        self.message = message()
+        self.message.setSenderName(self.nodeName)
 
         #setting up labels for info
         self.label_nodeName.setText(self.nodeName)
@@ -58,7 +63,12 @@ class node_gui(QWidget):
         self.label_port.setText(str(self.port))
         self.lcd_timestamp.display(self.clockCount)
 
+        #load connections
         self._load_connects()
+
+        #starting listening thread
+        self.thread = threading.Thread(target=self._thread_receive, args=())
+        self.thread.start()
 
 
     #load connection for the send msg button
@@ -79,36 +89,28 @@ class node_gui(QWidget):
     def bttn_sendMessage_clicked(self):
         print(f"Message from {self.nodeName} to {self.lineEdit_to.text()}:{self.lineEdit_toPort.text()} SENDING...", end='', flush=True)
 
-        self._updateClockCount()
+        #event is known, update timestamp
+        self.clockCount = self.clockCount + 1
+        self.lcd_timestamp.display(self.clockCount)
 
         #logic for message sending goes here
-        #some node bs
-        #make message here or make message in node??????
+        self.message.setMsg(self.lineEdit_send.text())
+        self.message.setClockCount(self.clockCount)
+        self.node.sendMessage(self.message, self.lineEdit_to.text(), int(self.lineEdit_toPort.text()))
 
         print("SENT", flush=True)
+        print(self.message, flush=True)
 
+        #printing sent message to textEdit_received
         self.textEdit_received.insertHtml(f"<b>{self.clockCount} {self.nodeName}></b> {self.lineEdit_send.text()}<br>")
         self.lineEdit_send.clear()
 
 
-    #function to update clockCount and lcd
-    def _updateClockCount(self):
-        self.clockCount = self.clockCount + 1
-        self.lcd_timestamp.display(self.clockCount)
-
-
-#thread that listens for messges... probably
-class Thread(QThread):
-
-    def __init__(self):
-        super(Thread, self).__init__()
-
-    def run(self):
-        #sprint("printing stuff...", flush=True)
-        #nodeApp = QApplication(sys.argv)
-        #nodeGui = node_gui()
-        #nodeGui.show()
-        #sys.exit(nodeApp.exec_())
-        for i in range(0,10):
-            print(f"{i}. stuff is happening", flush=True)
-            time.sleep(1)
+    #the function that will execute in a concurrent thread
+    #will listen for connections and do stuff.
+    def _thread_receive(self):
+        while True:
+            message = self.node.recvMessage()
+            self.textEdit_received.insertHtml(f"<b>{message.getClockCount()} {message.getSenderName()}></b> {message.getMsg()}<br>")
+            self.clockCount = max(message.getClockCount(), self.clockCount) + 1
+            self.lcd_timestamp.display(self.clockCount)

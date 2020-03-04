@@ -6,8 +6,6 @@ Has 4 main variables:
     senderName: Name of the sender nodes
     msg:        message to be sent
     clockCount: the senders Timestamp
-    mSize:      the total size of the pickled message object for buffering.
-                Not yet implemented.
 
 """
 
@@ -58,8 +56,8 @@ class message:
 
     #python special methods
     def __repr__(self):
-        return f"message({self.senderName}, {self.clockCount}, {self.msg}, {self.mSize})"
+        return f"message({self.senderName}, {self.clockCount}, {self.msg})"
 
 
     def __str__(self):
-        return f"Message Object\nSender: {self.senderName}\nClock: {self.clockCount}\nMessage: {self.msg}\nSize: {self.mSize}"
+        return f"Message Object\nSender: {self.senderName}\nClock: {self.clockCount}\nMessage: {self.msg}"

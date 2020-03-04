@@ -47,6 +47,7 @@ class create_gui(QWidget):
         self.radioBttn_hostName.setText(f"{socket.gethostname()} ({socket.gethostbyname(socket.gethostname())})")
         self._load_connects()
         self.move(20,20)
+        self.nodeThread = Thread()
 
 
     #loads the connection for the buttion
@@ -69,15 +70,20 @@ class create_gui(QWidget):
         proc.start(self.testProc())
         proc.kill()
         #NodeApp = QApplication(sys.argv)
-        #gui = node_gui()
+        #gui = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
         #gui.show()
         #sys.exit(NodeApp.exec_())
 
+
     def testProc(self):
         print("starting process...", flush=True)
-        print("sleeping for 5 seconds...", flush=True)
-        time.sleep(5)
+        print("sleeping for 3 seconds...", flush=True)
+        time.sleep(3)
         print("Killing process", flush=True)
+        #NodeApp = QApplication(sys.argv)
+        #gui1 = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
+        #gui1.show()
+        #sys.exit(NodeApp.exec_())
         #nodeThread = Thread()
         #nodeThread.start()
 
@@ -107,11 +113,11 @@ class create_gui(QWidget):
             return
 
         #open node window (multiprocessing)
-        #nodeProcess = Process(target=self.create_node, args=())
+        #nodeProcess = Process(target=self.testProc, args=())
         #nodeProcess.start()
         #nodeProcess.join()
 
-        #thread = threading.Thread(target=self.create_node, args=())
+        #thread = threading.Thread(target=self.testProc, args=())
         #thread.start()
         #thread.join()
 
@@ -120,7 +126,12 @@ class create_gui(QWidget):
         #proc.kill()
 
         #nodeThread = Thread()
-        #nodeThread.start()
+        #self.nodeThread.start()
+
+        #nodeApp = QApplication(sys.argv)
+        #gui1 = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
+        #gui1.show()
+        #sys.exit(nodeApp.exec_())
 
         #printing to textEdit_log
         self.textEdit_log.insertHtml(f"Node <b>{self.lineEdit_name.text()}@{ipAddress}:{self.lineEdit_port.text()}</b> created. Timestamp starting at <b>{self.lineEdit_timeStart.text()}</b><br />")
@@ -136,11 +147,13 @@ class Thread(QThread):
         super(Thread, self).__init__()
 
     def run(self):
+        #print("starting process...", flush=True)
+        #print("sleeping for 3 seconds...", flush=True)
+        #time.sleep(3)
+        #print("Killing process", flush=True)
         #sprint("printing stuff...", flush=True)
-        #nodeApp = QApplication(sys.argv)
-        #nodeGui = node_gui()
-        #nodeGui.show()
-        #sys.exit(nodeApp.exec_())
-        for i in range(0,10):
-            print(f"{i}. stuff is happening", flush=True)
-            time.sleep(1)
+        nodeApp = QApplication(sys.argv)
+        gui1 = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
+        gui1.show()
+        sys.exit(nodeApp.exec_())
+        #return
