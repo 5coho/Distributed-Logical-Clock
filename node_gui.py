@@ -111,6 +111,6 @@ class node_gui(QWidget):
     def _thread_receive(self):
         while True:
             message = self.node.recvMessage()
-            self.textEdit_received.insertHtml(f"<b>{message.getClockCount()} {message.getSenderName()}></b> {message.getMsg()}<br>")
             self.clockCount = max(message.getClockCount(), self.clockCount) + 1
             self.lcd_timestamp.display(self.clockCount)
+            self.textEdit_received.insertHtml(f"<b>{self.clockCount} {message.getSenderName()}></b> {message.getMsg()}<br>")
