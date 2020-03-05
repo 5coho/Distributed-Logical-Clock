@@ -67,7 +67,7 @@ class node_gui(QWidget):
         self._load_connects()
 
         #starting listening thread
-        self.thread = threading.Thread(target=self._thread_receive, args=())
+        self.thread = threading.Thread(target=self._thread_receive, args=(), daemon=True)
         self.thread.start()
 
 
