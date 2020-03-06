@@ -26,35 +26,7 @@ from PyQt5.QtWidgets import QApplication
 
 #defining the main function
 #creates and shows the create node gui
-
-def process1():
-    app = QApplication(sys.argv)
-    gui = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 280)
-    gui.show()
-    sys.exit(app.exec_())
-
-def process2():
-    app = QApplication(sys.argv)
-    gui = node_gui("Graeme Morgan", "127.0.0.1", 1235, 0, 583, 280)
-    gui.show()
-    sys.exit(app.exec_())
-
-def process3():
-    app = QApplication(sys.argv)
-    gui = node_gui("Shakira", "127.0.0.1", 1236, 12, 1146, 280)
-    gui.show()
-    sys.exit(app.exec_())
-
-def main2():
-    proc1 = multiprocessing.Process(target=process1)
-    proc2 = multiprocessing.Process(target=process2)
-    proc3 = multiprocessing.Process(target=process3)
-    proc1.start()
-    proc2.start()
-    proc3.start()
-    sys.exit()
-
-def main1():
+def main():
     app = QApplication(sys.argv)
     gui = create_gui()
     gui.show()
@@ -63,4 +35,4 @@ def main1():
 
 #running main()
 if __name__ == "__main__":
-    main2()
+    main()
