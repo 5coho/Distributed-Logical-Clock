@@ -2,8 +2,8 @@
 --Node Class File--
 
 This class provide the main functionality for message passing.
-the node_gui passes a socket object for Initialization and a message Object
-for sending.
+Create the socket for listening, sends message and receives messages.
+For future: buffering or dynamic recv() parameter
 
 """
 
@@ -25,6 +25,8 @@ class node:
 
 
     #constructor
+    #need ip address and port for initialization. hostname instead of port
+    #is sufficient.
     def __init__(self, ipAddress, port):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.ipAddress = ipAddress
@@ -36,7 +38,9 @@ class node:
         self.sock.listen(self.listenQueue)
 
 
-    #self explanatory setters bellow
+    #the main send message function. takes a message object, destination address
+    #and port. pickles message object, creates a temporary socket for sending
+    #then sends pickled message
     def sendMessage(self, message, destination, port):
 
         #pickling the Message
@@ -49,6 +53,10 @@ class node:
         tempSock.close()
 
 
+    #when called, this function blocks at self.sock.accept() until a connection
+    #is established. msg is received and unpickled then returns a message Object
+    #for future: incorporate some form of buffer or have prelimary message that
+    #sends message size then update the recv() parameter
     def recvMessage(self):
         self.sock.listen(self.listenQueue)
         clientsocket, address = self.sock.accept()
@@ -59,9 +67,11 @@ class node:
 
 
     #python special methods
+    #object representation
     def __repr__(self):
         return f"node({self.sock})"
 
 
+    #to String
     def __str__(self):
         return f"Node Object\nSocket: {self.sock}\n"

@@ -1,11 +1,13 @@
 """
 --Message Class file--
 
-This class is the object that gets communicated between nodes.
-Has 4 main variables:
+This class is the object that gets communicated between nodes. gets
+pickled in the node class.
+Has 3 main variables:
     senderName: Name of the sender nodes
     msg:        message to be sent
     clockCount: the senders Timestamp
+straight forward class, basically just hold info used by the node_gui class.
 
 """
 
@@ -55,9 +57,11 @@ class message:
 
 
     #python special methods
+    #python representation
     def __repr__(self):
         return f"message({self.senderName}, {self.clockCount}, {self.msg})"
 
 
+    #to string
     def __str__(self):
         return f"Message Object\nSender: {self.senderName}\nClock: {self.clockCount}\nMessage: {self.msg}"

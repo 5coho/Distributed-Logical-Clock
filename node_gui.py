@@ -21,6 +21,8 @@ import sys
 import time
 import socket
 import threading
+from message import message
+from node import node
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
@@ -87,7 +89,6 @@ class node_gui(QWidget):
     #creates functionality to the send message buttion
     @pyqtSlot()
     def bttn_sendMessage_clicked(self):
-        print(f"Message from {self.nodeName} to {self.lineEdit_to.text()}:{self.lineEdit_toPort.text()} SENDING...", end='', flush=True)
 
         #event is known, update timestamp
         self.clockCount = self.clockCount + 1
@@ -98,16 +99,13 @@ class node_gui(QWidget):
         self.message.setClockCount(self.clockCount)
         self.node.sendMessage(self.message, self.lineEdit_to.text(), int(self.lineEdit_toPort.text()))
 
-        print("SENT", flush=True)
-        print(self.message, flush=True)
-
         #printing sent message to textEdit_received
         self.textEdit_received.insertHtml(f"<b>{self.clockCount} {self.nodeName}></b> {self.lineEdit_send.text()}<br>")
         self.lineEdit_send.clear()
 
 
-    #the function that will execute in a concurrent thread
-    #will listen for connections and do stuff.
+    #the function that will execute in a concurrent thread that
+    #will listen for connections and updates the gui accordingly
     def _thread_receive(self):
         while True:
             message = self.node.recvMessage()

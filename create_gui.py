@@ -48,6 +48,8 @@ class create_gui(QWidget):
         self._load_connects()
         self.move(20,20)
         self.nodeThread = Thread()
+        self.xPosition = 20
+        self.yPosition = 280
 
 
     #loads the connection for the buttion
