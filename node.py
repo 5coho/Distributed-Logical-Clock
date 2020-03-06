@@ -28,12 +28,12 @@ class node:
     #need ip address and port for initialization. hostname instead of port
     #is sufficient.
     def __init__(self, ipAddress, port):
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.ipAddress = ipAddress
         self.port = port
         self.listenQueue = 5
 
-        #binding the address (ipAddress, port) for listening
+        #setting up socket stuff
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.bind((self.ipAddress, self.port))
         self.sock.listen(self.listenQueue)
 
@@ -58,7 +58,6 @@ class node:
     #for future: incorporate some form of buffer or have prelimary message that
     #sends message size then update the recv() parameter
     def recvMessage(self):
-        self.sock.listen(self.listenQueue)
         clientsocket, address = self.sock.accept()
         msg = clientsocket.recv(1024)
         unpickledMsg = pickle.loads(msg)

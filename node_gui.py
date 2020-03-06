@@ -58,15 +58,6 @@ class node_gui(QWidget):
         if ipAddress == "127.0.0.1":
             self.lineEdit_to.setText("127.0.0.1")
 
-        #setting lineEdit_toPort for usability. set toPort to previously
-        #created node except for first. may be removed later
-        if self.port == 1234:
-            self.lineEdit_toPort.setText("1235")
-        else:
-            newPort = int(self.port) - 1
-            self.lineEdit_toPort.setText(str(newPort))
-
-
         #creating node Object
         self.node = node(self.ipAddress, self.port)
 
