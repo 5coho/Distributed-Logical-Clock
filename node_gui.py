@@ -28,6 +28,7 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
@@ -44,6 +45,7 @@ class node_gui(QWidget):
         super(node_gui, self).__init__()
         loadUi("nodeGUI.ui", self)
         self.move(xStart, yStart)
+        self.setWindowIcon(QIcon("media/icon.png"))
         self.setWindowTitle(f"{nodeName} - PID:{os.getpid()}")
 
         #variables from constructor arguments
@@ -51,6 +53,19 @@ class node_gui(QWidget):
         self.ipAddress = ipAddress
         self.port = port
         self.clockCount = timestampStart
+
+        #checks if ipAddress is Loopback. changes lineEdit_to accordingly
+        if ipAddress == "127.0.0.1":
+            self.lineEdit_to.setText("127.0.0.1")
+
+        #setting lineEdit_toPort for usability. set toPort to previously
+        #created node except for first. may be removed later
+        if self.port == 1234:
+            self.lineEdit_toPort.setText("1235")
+        else:
+            newPort = int(self.port) - 1
+            self.lineEdit_toPort.setText(str(newPort))
+
 
         #creating node Object
         self.node = node(self.ipAddress, self.port)

@@ -32,6 +32,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QProcess
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
@@ -48,6 +49,7 @@ class create_gui(QWidget):
         self.radioBttn_hostName.setText(f"{socket.gethostname()} ({socket.gethostbyname(socket.gethostname())})")
         self._load_connects()
         self.move(20,20)
+        self.setWindowIcon(QIcon("media/icon.png"))
         self.setWindowTitle(f"Node Creation - PID:{os.getpid()}")
         self.xPosition = 20
         self.yPosition = 350
@@ -71,7 +73,6 @@ class create_gui(QWidget):
     #I'm not too sure if this works on windows... I mean it 'works' but
     #doesn't create processes but threads... I think... shit's wack.
     def createNode(self, ipAddress):
-        print(f"{ipAddress} - PID:{os.getpid()}", flush=True)
         nodeGui = node_gui(self.lineEdit_name.text(), ipAddress, int(self.lineEdit_port.text()), int(self.lineEdit_timeStart.text()), self.xPosition, self.yPosition)
         nodeGui.show()
 
