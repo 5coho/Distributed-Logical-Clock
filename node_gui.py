@@ -18,6 +18,7 @@ __python_version__  = "3.8.1"
 
 #imports
 import sys
+import os
 import time
 import socket
 import threading
@@ -43,7 +44,7 @@ class node_gui(QWidget):
         super(node_gui, self).__init__()
         loadUi("nodeGUI.ui", self)
         self.move(xStart, yStart)
-        self.setWindowTitle(nodeName)
+        self.setWindowTitle(f"{nodeName} - PID:{os.getpid()}")
 
         #variables from constructor arguments
         self.nodeName = nodeName

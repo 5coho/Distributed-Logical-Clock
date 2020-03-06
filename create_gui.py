@@ -21,6 +21,7 @@ __python_version__  = "3.8.1"
 
 #imports
 import sys
+import os
 import time
 import socket
 from node_gui import node_gui
@@ -47,9 +48,10 @@ class create_gui(QWidget):
         self.radioBttn_hostName.setText(f"{socket.gethostname()} ({socket.gethostbyname(socket.gethostname())})")
         self._load_connects()
         self.move(20,20)
-        self.nodeThread = Thread()
+        self.setWindowTitle(f"Node Creation - PID:{os.getpid()}")
         self.xPosition = 20
-        self.yPosition = 280
+        self.yPosition = 350
+        self.proc = QProcess()
 
 
     #loads the connection for the buttion
@@ -65,29 +67,13 @@ class create_gui(QWidget):
         self.lineEdit_timeStart.returnPressed.connect(self.bttn_create.click)
 
 
-    #function for the node process to be created
-    def create_node(self):
-        print("Creating new node...", flush=True)
-        proc = QProcess()
-        proc.start(self.testProc())
-        proc.kill()
-        #NodeApp = QApplication(sys.argv)
-        #gui = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
-        #gui.show()
-        #sys.exit(NodeApp.exec_())
-
-
-    def testProc(self):
-        print("starting process...", flush=True)
-        print("sleeping for 3 seconds...", flush=True)
-        time.sleep(3)
-        print("Killing process", flush=True)
-        #NodeApp = QApplication(sys.argv)
-        #gui1 = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
-        #gui1.show()
-        #sys.exit(NodeApp.exec_())
-        #nodeThread = Thread()
-        #nodeThread.start()
+    #this function is called by QProcess to create a new node process
+    #I'm not too sure if this works on windows... I mean it 'works' but
+    #doesn't create processes but threads... I think... shit's wack.
+    def createNode(self, ipAddress):
+        print(f"{ipAddress} - PID:{os.getpid()}", flush=True)
+        nodeGui = node_gui(self.lineEdit_name.text(), ipAddress, int(self.lineEdit_port.text()), int(self.lineEdit_timeStart.text()), self.xPosition, self.yPosition)
+        nodeGui.show()
 
 
     #this function updates the lineEdit fields
@@ -104,7 +90,7 @@ class create_gui(QWidget):
 
         #checking which radio button is checked
         if self.radioBttn_hostName.isChecked():
-            ipAddress = socket.gethostname()
+            ipAddress = socket.gethostbyname(socket.gethostname())
         else:
             ipAddress = "127.0.0.1"
 
@@ -114,48 +100,13 @@ class create_gui(QWidget):
             self.lineEdit_port.setText("1024")
             return
 
-        #open node window (multiprocessing)
-        #nodeProcess = Process(target=self.testProc, args=())
-        #nodeProcess.start()
-        #nodeProcess.join()
+        #starting process. runs createNode()
+        self.proc.start(self.createNode(ipAddress))
+        self.proc.kill()
 
-        #thread = threading.Thread(target=self.testProc, args=())
-        #thread.start()
-        #thread.join()
-
-        #proc = QProcess()
-        #proc.start(self.testProc())
-        #proc.kill()
-
-        #nodeThread = Thread()
-        #self.nodeThread.start()
-
-        #nodeApp = QApplication(sys.argv)
-        #gui1 = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
-        #gui1.show()
-        #sys.exit(nodeApp.exec_())
+        #updateing the xstarting position for new node windows
+        self.xPosition = self.xPosition + 60
 
         #printing to textEdit_log
         self.textEdit_log.insertHtml(f"Node <b>{self.lineEdit_name.text()}@{ipAddress}:{self.lineEdit_port.text()}</b> created. Timestamp starting at <b>{self.lineEdit_timeStart.text()}</b><br />")
         self._updateNamePort()
-
-
-
-#Test thread
-#fuckkkkkkkkkkkkk
-class Thread(QThread):
-
-    def __init__(self):
-        super(Thread, self).__init__()
-
-    def run(self):
-        #print("starting process...", flush=True)
-        #print("sleeping for 3 seconds...", flush=True)
-        #time.sleep(3)
-        #print("Killing process", flush=True)
-        #sprint("printing stuff...", flush=True)
-        nodeApp = QApplication(sys.argv)
-        gui1 = node_gui("Ricky Martin", "127.0.0.1", 1234, 0, 20, 360)
-        gui1.show()
-        sys.exit(nodeApp.exec_())
-        #return
