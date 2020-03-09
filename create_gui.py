@@ -22,12 +22,8 @@ __python_version__  = "3.8.1"
 #imports
 import sys
 import os
-import time
 import socket
 from node_gui import node_gui
-from multiprocessing import Process
-import threading
-from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal

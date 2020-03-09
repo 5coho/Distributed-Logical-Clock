@@ -19,12 +19,10 @@ __python_version__  = "3.8.1"
 #imports
 import sys
 import os
-import time
 import socket
 import threading
 from message import message
 from node import node
-from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
@@ -32,8 +30,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
-from message import message
-from node import node
 
 
 #the node_gui class

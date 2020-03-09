@@ -18,9 +18,7 @@ __python_version__  = "3.8.1"
 
 #imports go here
 import sys
-import multiprocessing
 from create_gui import create_gui
-from node_gui import node_gui
 from PyQt5.QtWidgets import QApplication
 
 
