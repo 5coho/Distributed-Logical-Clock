@@ -42,7 +42,7 @@ class node_gui(QWidget):
         loadUi("GUIs/nodeGUI.ui", self)
         self.move(xStart, yStart)
         self.setWindowIcon(QIcon("media/icon.png"))
-        self.setWindowTitle(f"{nodeName} - PID:{os.getpid()}")
+        self.setWindowTitle(f"{nodeName}")
 
         #variables from constructor arguments
         self.nodeName = nodeName

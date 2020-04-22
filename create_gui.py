@@ -46,7 +46,7 @@ class create_gui(QWidget):
         self._load_connects()
         self.move(20,20)
         self.setWindowIcon(QIcon("media/icon.png"))
-        self.setWindowTitle(f"Node Creation - PID:{os.getpid()}")
+        self.setWindowTitle(f"Node Creation")
         self.xPosition = 20
         self.yPosition = 350
         self.proc = QProcess()
