@@ -41,7 +41,7 @@ class create_gui(QWidget):
     #constructor
     def __init__(self):
         super(create_gui, self).__init__()
-        loadUi("createGUI.ui", self)
+        loadUi("GUIs/createGUI.ui", self)
         self.radioBttn_hostName.setText(f"{socket.gethostname()} ({socket.gethostbyname(socket.gethostname())})")
         self._load_connects()
         self.move(20,20)

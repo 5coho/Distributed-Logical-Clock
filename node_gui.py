@@ -39,7 +39,7 @@ class node_gui(QWidget):
     #constructor
     def __init__(self, nodeName, ipAddress, port, timestampStart, xStart, yStart):
         super(node_gui, self).__init__()
-        loadUi("nodeGUI.ui", self)
+        loadUi("GUIs/nodeGUI.ui", self)
         self.move(xStart, yStart)
         self.setWindowIcon(QIcon("media/icon.png"))
         self.setWindowTitle(f"{nodeName} - PID:{os.getpid()}")

@@ -1,5 +1,14 @@
-"env/Scripts/pyinstaller.exe" --onefile -i "media/icon.png" --name="Logical Clock" --paths="env/Lib/site-packages/PyQt5/Qt/bin" LogicalClock.py
-#cp "dist/Crack Detection Test Environment" .
-#rm -r build
-#rm -r dist
-#rm "Crack Detection Test Environment.spec"
+#creating executable
+"pyinstaller" --onefile -i "media/icon.ico" --name="Logical Clock" LogicalClock.py
+
+#copying Logical Clock executable to project root
+cp "dist/Logical Clock" .
+
+#removing Logical Clock.spec file created by pyinstaller
+rm "Logical Clock.spec"
+
+#removing build folder created by pyinstaller
+rm -r build
+
+#removing dist folder created by pyinstaller
+rm -r dist
