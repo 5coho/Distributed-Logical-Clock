@@ -1,5 +1,7 @@
+#! /bin/bash
+
 #creating executable
-"pyinstaller" --onefile -i "media/icon.ico" --name="Logical Clock" LogicalClock.py
+"pyinstaller" --onefile -i "media/icon.ico" --name="Logical Clock" --noconsole LogicalClock.py
 
 #copying Logical Clock executable to project root
 cp "dist/Logical Clock" .
