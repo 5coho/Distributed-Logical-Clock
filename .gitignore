@@ -4,4 +4,4 @@ __pycache__/
 
 #files to ignore
 run.sh
-.gitignore.txt
+.gitignore
