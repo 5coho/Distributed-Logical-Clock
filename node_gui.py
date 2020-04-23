@@ -29,6 +29,7 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.uic import loadUi
 
 
@@ -93,18 +94,51 @@ class node_gui(QWidget):
     @pyqtSlot()
     def bttn_sendMessage_clicked(self):
 
-        #event is known, update timestamp
-        self.clockCount = self.clockCount + 1
-        self.lcd_timestamp.display(self.clockCount)
+        lineEdit_toText = self.lineEdit_to.text()
+        lineEdit_toPortText = self.lineEdit_toPort.text()
+        lineEdit_sendText = self.lineEdit_send.text()
 
-        #logic for message sending goes here
-        self.message.setMsg(self.lineEdit_send.text())
-        self.message.setClockCount(self.clockCount)
-        self.node.sendMessage(self.message, self.lineEdit_to.text(), int(self.lineEdit_toPort.text()))
+        #checking that destination address and destination port are in fields
+        #is so, send message else error
+        if self._paramCheck(lineEdit_toText, lineEdit_toPortText):
 
-        #printing sent message to textEdit_received
-        self.textEdit_received.insertHtml(f"<b>{self.clockCount} {self.nodeName}></b> {self.lineEdit_send.text()}<br>")
-        self.lineEdit_send.clear()
+            #event is known, update timestamp
+            self.clockCount = self.clockCount + 1
+            self.lcd_timestamp.display(self.clockCount)
+
+            #logic for message sending goes here
+            self.message.setMsg(lineEdit_sendText)
+            self.message.setClockCount(self.clockCount)
+            self.node.sendMessage(self.message, lineEdit_toText, int(lineEdit_toPortText))
+
+            #printing sent message to textEdit_received
+            self.textEdit_received.insertHtml(f"<b>{self.clockCount} {self.nodeName}></b> {lineEdit_sendText}<br>")
+            self.lineEdit_send.clear()
+
+        else:
+            self._printError("Ensure that the <b>To</b> and <b>Port</b> fields are not empty")
+
+
+    #function that checks that lineEdit_toText and lineEdit_toPortText are not empty
+    #takes string IP and string port as params
+    #returns boolean
+    def _paramCheck(self, destination, port):
+        if destination == "":
+            return False
+        elif port == "":
+            return False
+        else:
+            return True
+
+
+    #prints a message box
+    #used for detecting errors
+    def _printError(self, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText(message)
+        msg.setWindowTitle(f"{self.nodeName} - Warning!")
+        msg.exec()
 
 
     #the function that will execute in a concurrent thread that
